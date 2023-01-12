@@ -1,0 +1,19 @@
+name: PlayerIslands
+version: '${project.version}'
+main: com.github.gavvydizzle.playerislands.PlayerIslands
+api-version: 1.19
+softdepend: [PlaceholderAPI]
+depend: [ServerUtils, Vault, WorldEdit, WorldGuard]
+author: GavvyDizzle
+description: Lightweight, highly customizable island/cell/plots plugin
+commands:
+  island:
+    aliases: [is]
+    description: Player commands
+    permission: playerislands.island
+    permission-message: Insufficient permission
+  islandAdmin:
+    aliases: [isadmin]
+    description: Admin commands
+    permission: playerislands.islandadmin
+    permission-message: Insufficient permission
