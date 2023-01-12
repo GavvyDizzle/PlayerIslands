@@ -35,6 +35,7 @@ This plugin allows players to create areas where they can do whatever you allow 
 ![img_1.png](images/commands_yml.png)
 
 ### Command List and Permissions
+- ```playerislands.islands.max.#``` Sets the maximum number of islands a player can create. (default of 1, max of 50)
 - ```playerislands.islandadmin.privatebypass``` Bypass visiting an island if it is set to private
 - **Player commands**
 - ```/is create (playerislands.island.create)``` Creates a new island for this player

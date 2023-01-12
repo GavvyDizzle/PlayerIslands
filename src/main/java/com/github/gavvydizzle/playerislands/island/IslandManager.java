@@ -25,7 +25,6 @@ public class IslandManager {
 
     private int ISLAND_SPREAD;
     private int ISLAND_Y_COORDINATE;
-    private int MAX_ISLANDS;
     private ProtectedRegion templateRegion;
     private String onPrivateCommand;
 
@@ -113,7 +112,6 @@ public class IslandManager {
         config.addDefault("templateRegion", "todo");
         config.addDefault("islandSpread", 250);
         config.addDefault("island_y_coordinate", 70);
-        config.addDefault("maxIslands", 1);
         PlayerIslands.getInstance().saveConfig();
 
         islandWorld = Bukkit.getWorld(Objects.requireNonNull(config.getString("islandWorld")));
@@ -158,8 +156,6 @@ public class IslandManager {
             PlayerIslands.getInstance().getLogger().warning("Blocks can only be placed from y -64 to 319. Please update the value at 'island_y_coordinate' in config.yml");
             ISLAND_Y_COORDINATE = Numbers.constrain(ISLAND_Y_COORDINATE, -64, 319);
         }
-
-        MAX_ISLANDS = config.getInt("maxIslands");
     }
 
     /**
@@ -179,7 +175,7 @@ public class IslandManager {
             return;
         }
 
-        if (getNumPlayerOwnedIslands(player) >= MAX_ISLANDS) {
+        if (getNumPlayerOwnedIslands(player) >= getMaxIslands(player)) {
             player.sendMessage(Messages.maxIslandsReached);
             return;
         }
@@ -193,6 +189,15 @@ public class IslandManager {
         addToOwnerMap(island.getOwner().getOfflinePlayer(), island);
 
         player.sendMessage(Messages.islandCreated);
+    }
+
+    private int getMaxIslands(Player player) {
+        for (int i = 1; i <= 50; i++) {
+            String maxIslandsPrefix = "playerislands.islands.max.";
+            if (player.hasPermission(maxIslandsPrefix + i)) return i;
+        }
+
+        return 1; // Default number of islands
     }
 
     /**
