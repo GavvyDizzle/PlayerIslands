@@ -71,8 +71,10 @@ public class OpenMenuCommand extends SubCommand implements IslandSelectionComman
         if (!(sender instanceof Player)) return false;
 
         OfflinePlayer owner = args.length < 2 ? (OfflinePlayer) sender : islandManager.getPlayerByName(args[1]);
+        String ownerName = args.length < 2 ? sender.getName() : args[1];
+
         if (owner == null) {
-            sender.sendMessage(Messages.playerNotFound.replace("{player_name}", args[1]));
+            sender.sendMessage(Messages.playerNotFound.replace("{player_name}", ownerName));
             return false;
         }
 
@@ -88,14 +90,12 @@ public class OpenMenuCommand extends SubCommand implements IslandSelectionComman
 
         if (showMemberIslands) {
             if (islandManager.getNumPlayerIslands(owner) == 0) {
-                sender.sendMessage(Messages.belongsToNoIslands.replace("{player_name}", args[1]));
-                return false;
+                sender.sendMessage(Messages.belongsToNoIslands.replace("{player_name}", ownerName));
             }
         }
         else {
             if (islandManager.getNumPlayerOwnedIslands(owner) == 0) {
-                sender.sendMessage(Messages.ownsNoIslands.replace("{player_name}", args[1]));
-                return false;
+                sender.sendMessage(Messages.ownsNoIslands.replace("{player_name}", ownerName));
             }
         }
 
