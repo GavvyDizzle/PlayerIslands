@@ -25,7 +25,11 @@ public class SizeUpgrade extends Upgrade {
         this.regionDimension = new Dimension(dimension.getX()-1, dimension.getY()-1, dimension.getZ()-1);
         this.regionOffset = regionOffset;
         this.spawnOffset = spawnOffset;
-        this.schematicName = schematicName;
+
+        String schematicName1 = schematicName;
+        if (schematicName1 != null && !schematicName1.endsWith(".schem"))  schematicName1 += ".schem";
+        this.schematicName = schematicName1;
+
         this.pitch = pitch;
         this.yaw = yaw;
     }

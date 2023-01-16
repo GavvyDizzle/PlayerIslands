@@ -56,6 +56,9 @@ This plugin allows players to create areas where they can do whatever you allow 
 - ```/isadmin menu [player] [include_member_islands] (playerislands.islandadmin.menu)``` Open an island's menu as an admin. Member editing is done through this command
 - ```/isadmin pasteSchematic <upgradeLevel> (playerislands.islandadmin.pasteSchematic)``` Pastes an island schematic into the world like upgrading the island would do. This should only be used to validate schematics before using them with this plugin. Upgrade levels start from 0
 - ```/isadmin reload [arg] (playerislands.islandadmin.reload)``` Reloads the plugin or a portion of it
+- ```/isadmin resetIsland <id> (playerislands.islandadmin.resetIsland)``` Resets all of an island's upgrades to level 0
+- ```/isadmin resetAllIslands <player> (playerislands.islandadmin.resetAllIslands)``` Resets all islands that this player owns
+- ```/isadmin setIslandUpgrade <id> <upgradeType> <level> (playerislands.islandadmin.setIslandUpgrade)``` Set the upgrade level of an island (cannot reduce the size of an island)
 
 ### Island Menu
 - The menu contains information about a player's island and is where they handle member management and upgrades
@@ -88,7 +91,7 @@ This plugin allows players to create areas where they can do whatever you allow 
   - ```privacyUppercase``` "Private" or "Public" depending on the island's setting
   - ```isMember``` "true" if the player is a member/owner of this island, "false" otherwise
   - ```isOwner``` "true" if the player is the owner of this island, "false" otherwise
-- Example scoreboard for islands see [TAB](https://github.com/NEZNAMY/TAB/wiki/Feature-guide:-Scoreboard)
+- Example scoreboard for islands (see [TAB](https://github.com/NEZNAMY/TAB/wiki/Feature-guide:-Scoreboard))
   - For my example, I defined a [condition](https://github.com/NEZNAMY/TAB/wiki/Feature-guide:-Conditional-placeholders#condition-types) for my scoreboard
   
 ![img_1.png](images/scoreboard_example.png)

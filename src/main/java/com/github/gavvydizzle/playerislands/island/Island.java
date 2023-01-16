@@ -213,6 +213,14 @@ public class Island {
         }
     }
 
+    public void setMemberUpgrade(int level) {
+        if (memberUpgradeLevel == level) return;
+
+        memberUpgradeLevel = level;
+        upgradeMenu.updateMemberUpgradeItem();
+        PlayerIslands.getInstance().getDatabase().updateIslandMemberUpgrade(this);
+    }
+
     public SizeUpgrade getSizeUpgrade() {
         return PlayerIslands.getInstance().getUpgradeManager().getSizeUpgrade(sizeUpgradeLevel);
     }
@@ -229,8 +237,21 @@ public class Island {
             upgradeMenu.updateSizeUpgradeItem();
             PlayerIslands.getInstance().getDatabase().updateIslandSizeUpgrade(this);
             PlayerIslands.getInstance().getIslandManager().updateRegionSize(this, getSizeUpgrade());
-            PlayerIslands.getInstance().getUpgradeManager().pasteSchematic(originLocation, oldSizeUpgrade, getSizeUpgrade());
+            PlayerIslands.getInstance().getUpgradeManager().pasteSchematic(originLocation, oldSizeUpgrade, getSizeUpgrade(), true);
         }
+    }
+
+    public void setSizeUpgrade(int level, boolean keepExistingBlocks) {
+        if (level != 0 && sizeUpgradeLevel == level) return;
+
+        SizeUpgrade oldSizeUpgrade = getSizeUpgrade();
+        sizeUpgradeLevel = level;
+        updateSpawnLocation();
+        upgradeMenu.updateSizeUpgradeItem();
+        PlayerIslands.getInstance().getDatabase().updateIslandSizeUpgrade(this);
+        PlayerIslands.getInstance().getIslandManager().updateRegionSize(this, getSizeUpgrade());
+
+        PlayerIslands.getInstance().getUpgradeManager().pasteSchematic(originLocation, oldSizeUpgrade, getSizeUpgrade(), keepExistingBlocks);
     }
 
     /**
@@ -331,8 +352,16 @@ public class Island {
      * Gets the number of members of this island including the owner
      * @return The number of members + 1
      */
-    public int getNumMembers() {
+    public int getNumMembersWithOwner() {
         return members.size() + 1;
+    }
+
+    /**
+     * Gets the number of members of this island including the owner
+     * @return The number of members + 1
+     */
+    public int getNumMembers() {
+        return members.size();
     }
 
     public ArrayList<IslandMember> getIslandMembers() {

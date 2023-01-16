@@ -39,6 +39,9 @@ public class AdminCommandManager implements TabExecutor {
         subcommands.add(new OpenAdminMenuCommand(this, islandManager));
         subcommands.add(new PasteSizeUpgradeSchematic(this));
         subcommands.add(new ReloadCommand(this));
+        subcommands.add(new ResetPlayerOwnedIslands(this, islandManager));
+        subcommands.add(new ResetIsland(this, islandManager));
+        subcommands.add(new SetIslandUpgrade(this, islandManager));
 
         for (SubCommand subCommand : subcommands) {
             subcommandStrings.add(subCommand.getName());

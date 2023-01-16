@@ -39,8 +39,6 @@ public class UpgradeManager {
         FileConfiguration config = UpgradesConfig.get();
         config.options().copyDefaults(true);
 
-        config.addDefault("sounds.success", 0);
-
         config.addDefault("sizeUpgrades.default.price", 0);
         config.addDefault("sizeUpgrades.default.permission", "");
         config.addDefault("sizeUpgrades.default.schematicName", "");
@@ -107,6 +105,11 @@ public class UpgradeManager {
                 memberUpgrades.add(new MemberUpgrade(price, memberUpgrades.size(), config.getString(path + ".permission"), numMembers));
             }
         }
+
+        // No schematic for default size upgrade
+        if (sizeUpgrades.get(0).getClipboard() == null) {
+            PlayerIslands.getInstance().getLogger().warning("You have not provided a schematic file for the default size upgrade in upgrades.yml. Newly created islands will not have any blocks!");
+        }
     }
 
     /**
@@ -115,8 +118,9 @@ public class UpgradeManager {
      * @param loc The location to paste at
      * @param lastUpgrade The last SizeUpgrade to use for area preservation
      * @param upgrade The SizeUpgrade
+     * @param keepExistingBlocks True if the existing blocks should be pasted back after the schematic is pasted
      */
-    public void pasteSchematic(Location loc, @Nullable SizeUpgrade lastUpgrade, @NotNull SizeUpgrade upgrade) {
+    public void pasteSchematic(Location loc, @Nullable SizeUpgrade lastUpgrade, @NotNull SizeUpgrade upgrade, boolean keepExistingBlocks) {
         Clipboard clipboard = upgrade.getClipboard();
         if (clipboard == null) return; // Don't paste if the clipboard is null
 
@@ -144,14 +148,16 @@ public class UpgradeManager {
                         .build();
                 Operations.complete(operation);
 
-                // Paste old island blocks back in
-                operation = new ClipboardHolder(bac)
-                        .createPaste(editSession)
-                        .to(origin)
-                        .copyBiomes(false)
-                        .copyEntities(true)
-                        .build();
-                Operations.complete(operation);
+                if (keepExistingBlocks) { // Paste old island blocks back in
+                    operation = new ClipboardHolder(bac)
+                            .createPaste(editSession)
+                            .to(origin)
+                            .copyBiomes(false)
+                            .copyEntities(true)
+                            .ignoreAirBlocks(false)
+                            .build();
+                    Operations.complete(operation);
+                }
             }
             else {
                 Operation operation = new ClipboardHolder(clipboard)
@@ -164,6 +170,7 @@ public class UpgradeManager {
             }
         } catch (Exception e) {
             PlayerIslands.getInstance().getLogger().severe(e.getMessage());
+            e.printStackTrace();
         }
     }
 

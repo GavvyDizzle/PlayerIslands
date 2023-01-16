@@ -322,7 +322,7 @@ public class IslandManager {
 
         regionManager.addRegion(region);
 
-        PlayerIslands.getInstance().getUpgradeManager().pasteSchematic(island.getOriginLocation(), null, PlayerIslands.getInstance().getUpgradeManager().getSizeUpgrade(0));
+        PlayerIslands.getInstance().getUpgradeManager().pasteSchematic(island.getOriginLocation(), null, PlayerIslands.getInstance().getUpgradeManager().getSizeUpgrade(0), false);
     }
 
     /**
@@ -391,6 +391,20 @@ public class IslandManager {
                 if (!island.isMember(player) && !PlayerIslands.isPluginAdmin(player)) {
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), onPrivateCommand.replace("{player_name}", player.getName()));
                 }
+            }
+        }
+    }
+
+    /**
+     * Runs a command for all of this island. It is intended for this command to remove then from the island during an island reset
+     * @param island the island
+     */
+    public void removePlayersFromIsland(Island island) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            if (PlayerIslands.isPluginAdmin(player)) continue;
+
+            if (player.getWorld().getUID().equals(islandWorld.getUID()) && island.getRegion().contains(BukkitAdapter.asBlockVector(player.getLocation()))) {
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), onPrivateCommand.replace("{player_name}", player.getName()));
             }
         }
     }

@@ -104,7 +104,7 @@ public class MemberListMenu extends Menu {
         if (e.getSlot() == backButtonSlot) {
             onBackButtonClick(player, false);
         }
-        else if (e.getSlot() < getIsland().getNumMembers() && e.getSlot() != 0) {
+        else if (e.getSlot() < getIsland().getNumMembersWithOwner() && e.getSlot() != 0) {
             handleMemberClick(player, e.getSlot(), e.getClick());
         }
     }
@@ -114,7 +114,7 @@ public class MemberListMenu extends Menu {
         if (e.getSlot() == backButtonSlot) {
             onBackButtonClick(player, true);
         }
-        else if (e.getSlot() < getIsland().getNumMembers() && e.getSlot() != 0) {
+        else if (e.getSlot() < getIsland().getNumMembersWithOwner() && e.getSlot() != 0) {
             handleAdminClick(player, e.getSlot(), e.getClick());
         }
     }
