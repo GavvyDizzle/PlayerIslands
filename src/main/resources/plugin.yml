@@ -1,7 +1,7 @@
 name: PlayerIslands
 version: '${project.version}'
 main: com.github.gavvydizzle.playerislands.PlayerIslands
-api-version: 1.19
+api-version: 1.18
 softdepend: [PlaceholderAPI]
 depend: [ServerUtils, Vault, WorldEdit, WorldGuard]
 author: GavvyDizzle
