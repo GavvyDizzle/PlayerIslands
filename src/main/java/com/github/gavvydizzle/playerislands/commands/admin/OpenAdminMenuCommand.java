@@ -121,7 +121,7 @@ public class OpenAdminMenuCommand extends SubCommand implements IslandSelectionC
     }
 
     @Override
-    public List<String> getSubcommandArguments(Player player, String[] args) {
+    public List<String> getSubcommandArguments(CommandSender sender, String[] args) {
         ArrayList<String> list = new ArrayList<>();
 
         if (args.length == 2) {

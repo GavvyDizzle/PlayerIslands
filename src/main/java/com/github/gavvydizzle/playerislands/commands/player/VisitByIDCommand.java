@@ -10,7 +10,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class VisitByIDCommand extends SubCommand implements PermissionCommand {
@@ -75,7 +74,7 @@ public class VisitByIDCommand extends SubCommand implements PermissionCommand {
     }
 
     @Override
-    public List<String> getSubcommandArguments(Player player, String[] args) {
-        return new ArrayList<>();
+    public List<String> getSubcommandArguments(CommandSender sender, String[] args) {
+        return null;
     }
 }

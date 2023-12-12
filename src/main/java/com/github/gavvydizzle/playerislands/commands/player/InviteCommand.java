@@ -122,7 +122,7 @@ public class InviteCommand extends SubCommand implements IslandSelectionCommand,
     }
 
     @Override
-    public List<String> getSubcommandArguments(Player player, String[] args) {
+    public List<String> getSubcommandArguments(CommandSender sender, String[] args) {
         if (args.length == 2) return null;
         return new ArrayList<>();
     }

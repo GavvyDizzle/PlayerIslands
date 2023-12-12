@@ -6,7 +6,7 @@
 
     <groupId>com.github.gavvydizzle</groupId>
     <artifactId>PlayerIslands</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>PlayerIslands</name>
@@ -82,7 +82,7 @@
         <dependency>
             <groupId>com.github.mittenmc</groupId>
             <artifactId>ServerUtils</artifactId>
-            <version>1.0.1</version>
+            <version>1.0.6</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

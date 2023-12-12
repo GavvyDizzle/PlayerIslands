@@ -54,16 +54,16 @@ public final class PlayerIslands extends JavaPlugin {
         getServer().getPluginManager().registerEvents(inventoryManager, this);
 
         try {
-            playerCommandManager = new PlayerCommandManager(Objects.requireNonNull(getCommand("island")), islandManager);
+            adminCommandManager = new AdminCommandManager(Objects.requireNonNull(getCommand("islandAdmin")), islandManager);
         } catch (NullPointerException e) {
             getLogger().severe("The admin command name was changed in the plugin.yml file. Please make it \"islandAdmin\" and restart the server. You can change the aliases but NOT the command name.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
         try {
-            adminCommandManager = new AdminCommandManager(Objects.requireNonNull(getCommand("islandAdmin")), islandManager);
+            playerCommandManager = new PlayerCommandManager(Objects.requireNonNull(getCommand("island")), islandManager);
         } catch (NullPointerException e) {
-            getLogger().severe("The admin command name was changed in the plugin.yml file. Please make it \"islandAdmin\" and restart the server. You can change the aliases but NOT the command name.");
+            getLogger().severe("The player command name was changed in the plugin.yml file. Please make it \"island\" and restart the server. You can change the aliases but NOT the command name.");
             getServer().getPluginManager().disablePlugin(this);
             return;
         }

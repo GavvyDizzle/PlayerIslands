@@ -308,11 +308,15 @@ public class IslandManager {
             return;
         }
 
-        BlockVector3 origin = BlockVector3.at(island.getOriginLocation().getBlockX(), island.getOriginLocation().getBlockY(), island.getOriginLocation().getBlockZ());
-        Dimension so = PlayerIslands.getInstance().getUpgradeManager().getSizeUpgrade(0).getRegionDimension();
-        BlockVector3 offset = BlockVector3.at(so.getX(), so.getY(), so.getZ());
+        SizeUpgrade sizeUpgrade = PlayerIslands.getInstance().getUpgradeManager().getSizeUpgrade(0);
+        Dimension regionDimension = sizeUpgrade.getRegionDimension();
+        Dimension regionOffset = sizeUpgrade.getRegionOffset();
 
-        ProtectedCuboidRegion region = new ProtectedCuboidRegion(island.getRegionName(), origin, origin.add(offset));
+        BlockVector3 origin = BlockVector3.at(island.getOriginLocation().getBlockX(), island.getOriginLocation().getBlockY(), island.getOriginLocation().getBlockZ());
+        BlockVector3 corner2 = BlockVector3.at(regionDimension.getX(), regionDimension.getY(), regionDimension.getZ());
+        origin = origin.add(regionOffset.getX(), regionOffset.getY(), regionOffset.getZ()); // Move origin by the offset amount
+
+        ProtectedCuboidRegion region = new ProtectedCuboidRegion(island.getRegionName(), origin, origin.add(corner2));
         try {
             region.setParent(templateRegion);
         } catch (ProtectedRegion.CircularInheritanceException e) {

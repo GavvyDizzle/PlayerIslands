@@ -73,7 +73,7 @@ public class PasteSizeUpgradeSchematic extends SubCommand implements PermissionC
     }
 
     @Override
-    public List<String> getSubcommandArguments(Player player, String[] args) {
+    public List<String> getSubcommandArguments(CommandSender sender, String[] args) {
         return new ArrayList<>();
     }
 }

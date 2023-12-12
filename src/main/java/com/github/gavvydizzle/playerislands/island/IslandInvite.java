@@ -72,8 +72,7 @@ public class IslandInvite {
             creator.sendMessage(Messages.sentInviteExpired.replace("{player_name}", invitedPlayer.getName()));
         }
         if (invitedPlayer.isOnline()) {
-            invitedPlayer.sendMessage(Messages.receivedInviteExpired
-                    .replace("{player_name}", creator.getName()).replace("{player_name}", creator.getName()));
+            invitedPlayer.sendMessage(Messages.receivedInviteExpired.replace("{player_name}", creator.getName()));
         }
 
         PlayerIslands.getInstance().getIslandManager().onIslandInviteExpire(this);

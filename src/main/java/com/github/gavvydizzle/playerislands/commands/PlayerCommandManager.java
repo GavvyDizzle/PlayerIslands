@@ -121,7 +121,7 @@ public class PlayerCommandManager implements TabExecutor {
             }
             sender.sendMessage(ChatColor.RED + "Invalid command");
         }
-        sender.sendMessage(ChatColor.YELLOW + "Use '/is help' to see a list of valid commands");
+        sender.sendMessage(ChatColor.YELLOW + "Use '/" + commandDisplayName + " help' to see a list of valid commands");
 
         return true;
     }

@@ -118,7 +118,7 @@ public class OpenMenuCommand extends SubCommand implements IslandSelectionComman
     }
 
     @Override
-    public List<String> getSubcommandArguments(Player player, String[] args) {
+    public List<String> getSubcommandArguments(CommandSender sender, String[] args) {
         ArrayList<String> list = new ArrayList<>();
 
         if (args.length == 2) {

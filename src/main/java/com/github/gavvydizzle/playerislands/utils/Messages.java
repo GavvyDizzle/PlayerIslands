@@ -143,7 +143,7 @@ public class Messages {
         successfulPurchase = Colors.conv(config.getString("successfulPurchase"));
         insufficientUpgradePermission = Colors.conv(config.getString("insufficientUpgradePermission"));
 
-        // Upgrades
+        // Invites
         inviteSent = Colors.conv(config.getString("inviteSent"));
         inviteReceived = Colors.conv(config.getString("inviteReceived"));
         sentInviteAccepted = Colors.conv(config.getString("sentInviteAccepted"));
