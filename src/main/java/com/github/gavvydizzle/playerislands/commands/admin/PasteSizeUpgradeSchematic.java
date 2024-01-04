@@ -3,7 +3,6 @@ package com.github.gavvydizzle.playerislands.commands.admin;
 import com.github.gavvydizzle.playerislands.PlayerIslands;
 import com.github.gavvydizzle.playerislands.commands.AdminCommandManager;
 import com.github.gavvydizzle.playerislands.upgrade.SizeUpgrade;
-import com.github.mittenmc.serverutils.PermissionCommand;
 import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -12,37 +11,14 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PasteSizeUpgradeSchematic extends SubCommand implements PermissionCommand {
-
-    private final AdminCommandManager adminCommandManager;
+public class PasteSizeUpgradeSchematic extends SubCommand {
 
     public PasteSizeUpgradeSchematic(AdminCommandManager adminCommandManager) {
-        this.adminCommandManager = adminCommandManager;
-    }
-
-    @Override
-    public String getPermission() {
-        return "playerislands.islandadmin." + getName().toLowerCase();
-    }
-
-    @Override
-    public String getName() {
-        return "pasteSchematic";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Pastes the schematic for the given size level";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " pasteSchematic <upgradeLevel>";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("pasteSchematic");
+        setDescription("Pastes the schematic for the given size level");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " pasteSchematic <upgradeLevel>");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override

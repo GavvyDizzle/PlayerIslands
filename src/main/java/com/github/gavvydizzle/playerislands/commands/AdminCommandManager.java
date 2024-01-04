@@ -6,46 +6,35 @@ import com.github.gavvydizzle.playerislands.configs.CommandsConfig;
 import com.github.gavvydizzle.playerislands.island.IslandManager;
 import com.github.gavvydizzle.playerislands.utils.Messages;
 import com.github.mittenmc.serverutils.Colors;
-import com.github.mittenmc.serverutils.PermissionCommand;
+import com.github.mittenmc.serverutils.CommandManager;
 import com.github.mittenmc.serverutils.SubCommand;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabExecutor;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.util.StringUtil;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class AdminCommandManager implements TabExecutor {
+public class AdminCommandManager extends CommandManager {
 
     private final PluginCommand command;
     private final IslandManager islandManager;
-    private final ArrayList<SubCommand> subcommands = new ArrayList<>();
-    private final ArrayList<String> subcommandStrings = new ArrayList<>();
     private String commandDisplayName, helpCommandPadding;
 
     public AdminCommandManager(PluginCommand command, IslandManager islandManager) {
+        super(command);
         this.command = command;
-        command.setExecutor(this);
         this.islandManager = islandManager;
 
-        subcommands.add(new AddMemberCommand(this, islandManager));
-        subcommands.add(new AdminHelpCommand(this));
-        subcommands.add(new OpenAdminMenuCommand(this, islandManager));
-        subcommands.add(new PasteSizeUpgradeSchematic(this));
-        subcommands.add(new ReloadCommand(this));
-        subcommands.add(new ResetPlayerOwnedIslands(this, islandManager));
-        subcommands.add(new ResetIsland(this, islandManager));
-        subcommands.add(new SetIslandUpgrade(this, islandManager));
+        registerCommand(new AddMemberCommand(this, islandManager));
+        registerCommand(new AdminHelpCommand(this));
+        registerCommand(new OpenAdminMenuCommand(this, islandManager));
+        registerCommand(new PasteSizeUpgradeSchematic(this));
+        registerCommand(new ReloadCommand(this));
+        registerCommand(new ResetPlayerOwnedIslands(this, islandManager));
+        registerCommand(new ResetIsland(this, islandManager));
+        registerCommand(new SetIslandUpgrade(this, islandManager));
 
-        for (SubCommand subCommand : subcommands) {
-            subcommandStrings.add(subCommand.getName());
-        }
+        sortCommands();
 
         reload();
     }
@@ -56,7 +45,7 @@ public class AdminCommandManager implements TabExecutor {
         config.addDefault("commandDisplayName.admin", command.getName());
         config.addDefault("helpCommandPadding.admin", "&6-----(" + PlayerIslands.getInstance().getName() + " Admin Commands)-----");
 
-        for (SubCommand subCommand : subcommands) {
+        for (SubCommand subCommand : getSubcommands()) {
             CommandsConfig.setAdminDescriptionDefault(subCommand);
         }
         CommandsConfig.save();
@@ -81,19 +70,16 @@ public class AdminCommandManager implements TabExecutor {
         }
 
         if (args.length > 0) {
-            for (int i = 0; i < getSubcommands().size(); i++) {
-                if (args[0].equalsIgnoreCase(getSubcommands().get(i).getName())) {
+            for (SubCommand subCommand : getSubcommands()) {
+                if (args[0].equalsIgnoreCase(subCommand.getName())) {
 
-                    SubCommand subCommand = subcommands.get(i);
-
-                    if (islandManager.isIslandWorldInvalid() && !subCommand.getName().equalsIgnoreCase("reload")) { // Allow reload command through invalid world check
-                        sender.sendMessage(Messages.invalidIslandWorld);
+                    if (!subCommand.hasPermission(sender)) {
+                        onNoPermission(sender, args);
                         return true;
                     }
 
-                    if (subCommand instanceof PermissionCommand &&
-                            !sender.hasPermission(((PermissionCommand) subCommand).getPermission())) {
-                        sender.sendMessage(ChatColor.RED + "Insufficient permission");
+                    if (islandManager.isIslandWorldInvalid() && !subCommand.getName().equalsIgnoreCase("reload")) { // Allow reload command through invalid world check
+                        sender.sendMessage(Messages.invalidIslandWorld);
                         return true;
                     }
 
@@ -108,38 +94,10 @@ public class AdminCommandManager implements TabExecutor {
                     return true;
                 }
             }
-            sender.sendMessage(ChatColor.RED + "Invalid command");
+            onInvalidSubcommand(sender, args);
+            return true;
         }
-        sender.sendMessage(ChatColor.YELLOW + "Use '/" + commandDisplayName + " help' to see a list of valid commands");
-
+        onNoSubcommand(sender, args);
         return true;
-    }
-
-    public ArrayList<SubCommand> getSubcommands(){
-        return subcommands;
-    }
-
-    @Override
-    public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, String[] args) {
-        if (args.length == 1) {
-            ArrayList<String> subcommandsArguments = new ArrayList<>();
-
-            StringUtil.copyPartialMatches(args[0], subcommandStrings, subcommandsArguments);
-
-            return subcommandsArguments;
-        }
-        else if (args.length >= 2) {
-            for (SubCommand subcommand : subcommands) {
-                if (args[0].equalsIgnoreCase(subcommand.getName())) {
-                    return subcommand.getSubcommandArguments((Player) sender, args);
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public PluginCommand getCommand() {
-        return command;
     }
 }

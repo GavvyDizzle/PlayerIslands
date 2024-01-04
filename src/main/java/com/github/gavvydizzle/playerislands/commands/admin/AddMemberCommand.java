@@ -5,7 +5,6 @@ import com.github.gavvydizzle.playerislands.commands.IslandSelectionCommand;
 import com.github.gavvydizzle.playerislands.island.Island;
 import com.github.gavvydizzle.playerislands.island.IslandManager;
 import com.github.gavvydizzle.playerislands.utils.Messages;
-import com.github.mittenmc.serverutils.PermissionCommand;
 import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,39 +20,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class AddMemberCommand extends SubCommand implements IslandSelectionCommand, PermissionCommand {
+public class AddMemberCommand extends SubCommand implements IslandSelectionCommand {
 
-    private final AdminCommandManager adminCommandManager;
     private final IslandManager islandManager;
 
     public AddMemberCommand(AdminCommandManager adminCommandManager, IslandManager islandManager) {
-        this.adminCommandManager = adminCommandManager;
         this.islandManager = islandManager;
-    }
 
-    @Override
-    public String getPermission() {
-        return "playerislands.islandadmin." + getName().toLowerCase();
-    }
-
-    @Override
-    public String getName() {
-        return "addMember";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Forcefully makes the player a member of an island";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " addMember <owner> <player> [bypass_member_cap]";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("addMember");
+        setDescription("Forcefully makes the player a member of an island");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " addMember <owner> <player> [bypass_member_cap]");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override

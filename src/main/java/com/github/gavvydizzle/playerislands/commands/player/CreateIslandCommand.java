@@ -2,16 +2,15 @@ package com.github.gavvydizzle.playerislands.commands.player;
 
 import com.github.gavvydizzle.playerislands.commands.PlayerCommandManager;
 import com.github.gavvydizzle.playerislands.island.IslandManager;
-import com.github.mittenmc.serverutils.PermissionCommand;
 import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class CreateIslandCommand extends SubCommand implements PermissionCommand {
+public class CreateIslandCommand extends SubCommand {
 
     private final PlayerCommandManager playerCommandManager;
     private final IslandManager islandManager;
@@ -19,42 +18,23 @@ public class CreateIslandCommand extends SubCommand implements PermissionCommand
     public CreateIslandCommand(PlayerCommandManager playerCommandManager, IslandManager islandManager) {
         this.playerCommandManager = playerCommandManager;
         this.islandManager = islandManager;
-    }
 
-    @Override
-    public String getPermission() {
-        return "playerislands.island." + getName().toLowerCase();
-    }
-
-    @Override
-    public String getName() {
-        return "create";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Create a new island";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + playerCommandManager.getCommandDisplayName() + " create";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("create");
+        setDescription("Create a new island");
+        setSyntax("/" + playerCommandManager.getCommandDisplayName() + " create");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(playerCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override
     public void perform(CommandSender sender, String[] args) {
-        if (sender instanceof Player) {
-            islandManager.createNewIsland((Player) sender);
-        }
+        if (!(sender instanceof Player player)) return;
+
+        islandManager.createNewIsland(player);
     }
 
     @Override
     public List<String> getSubcommandArguments(CommandSender sender, String[] args) {
-        return new ArrayList<>();
+        return Collections.emptyList();
     }
 }

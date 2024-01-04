@@ -2,7 +2,6 @@ package com.github.gavvydizzle.playerislands.commands.admin;
 
 import com.github.gavvydizzle.playerislands.commands.AdminCommandManager;
 import com.github.gavvydizzle.playerislands.configs.CommandsConfig;
-import com.github.mittenmc.serverutils.PermissionCommand;
 import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -10,37 +9,18 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminHelpCommand extends SubCommand implements PermissionCommand {
+public class AdminHelpCommand extends SubCommand {
 
     private final AdminCommandManager adminCommandManager;
 
     public AdminHelpCommand(AdminCommandManager adminCommandManager) {
         this.adminCommandManager = adminCommandManager;
-    }
 
-    @Override
-    public String getPermission() {
-        return "playerislands.islandadmin." + getName().toLowerCase();
-    }
-
-    @Override
-    public String getName() {
-        return "help";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Opens this help menu";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " help";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("help");
+        setDescription("Opens this help menu");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " help");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override

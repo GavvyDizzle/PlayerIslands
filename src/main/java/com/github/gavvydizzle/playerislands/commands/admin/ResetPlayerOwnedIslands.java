@@ -4,7 +4,6 @@ import com.github.gavvydizzle.playerislands.commands.AdminCommandManager;
 import com.github.gavvydizzle.playerislands.island.Island;
 import com.github.gavvydizzle.playerislands.island.IslandManager;
 import com.github.gavvydizzle.playerislands.utils.Messages;
-import com.github.mittenmc.serverutils.PermissionCommand;
 import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -14,39 +13,18 @@ import org.bukkit.util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResetPlayerOwnedIslands extends SubCommand implements PermissionCommand {
+public class ResetPlayerOwnedIslands extends SubCommand {
 
-    private final AdminCommandManager adminCommandManager;
     private final IslandManager islandManager;
 
     public ResetPlayerOwnedIslands(AdminCommandManager adminCommandManager, IslandManager islandManager) {
-        this.adminCommandManager = adminCommandManager;
         this.islandManager = islandManager;
-    }
 
-    @Override
-    public String getPermission() {
-        return "playerislands.islandadmin." + getName().toLowerCase();
-    }
-
-    @Override
-    public String getName() {
-        return "resetAllIslands";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Resets all islands that this player owns (removes player placed blocks)";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " resetAllIslands <player>";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("resetAllIslands");
+        setDescription("Resets all islands that this player owns (removes player placed blocks)");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " resetAllIslands <player>");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override

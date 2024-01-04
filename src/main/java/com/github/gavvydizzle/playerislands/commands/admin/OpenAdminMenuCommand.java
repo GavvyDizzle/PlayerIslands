@@ -6,7 +6,6 @@ import com.github.gavvydizzle.playerislands.commands.IslandSelectionCommand;
 import com.github.gavvydizzle.playerislands.island.Island;
 import com.github.gavvydizzle.playerislands.island.IslandManager;
 import com.github.gavvydizzle.playerislands.utils.Messages;
-import com.github.mittenmc.serverutils.PermissionCommand;
 import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -19,39 +18,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class OpenAdminMenuCommand extends SubCommand implements IslandSelectionCommand, PermissionCommand {
+public class OpenAdminMenuCommand extends SubCommand implements IslandSelectionCommand {
 
-    private final AdminCommandManager adminCommandManager;
     private final IslandManager islandManager;
 
     public OpenAdminMenuCommand(AdminCommandManager adminCommandManager, IslandManager islandManager) {
-        this.adminCommandManager = adminCommandManager;
         this.islandManager = islandManager;
-    }
 
-    @Override
-    public String getPermission() {
-        return "playerislands.islandadmin." + getName().toLowerCase();
-    }
-
-    @Override
-    public String getName() {
-        return "menu";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Open an island's admin menu (optional: include member islands)";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " menu [player] [include_member_islands]";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("menu");
+        setDescription("Open an island's admin menu (optional: include member islands)");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " menu [player] [include_member_islands]");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override

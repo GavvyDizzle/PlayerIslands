@@ -7,7 +7,6 @@ import com.github.gavvydizzle.playerislands.configs.CommandsConfig;
 import com.github.gavvydizzle.playerislands.island.Island;
 import com.github.gavvydizzle.playerislands.island.IslandManager;
 import com.github.gavvydizzle.playerislands.island.MemberType;
-import com.github.mittenmc.serverutils.PermissionCommand;
 import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -19,14 +18,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class TogglePrivacyCommand extends SubCommand implements IslandSelectionCommand, PermissionCommand, RankedCommand {
+public class TogglePrivacyCommand extends SubCommand implements IslandSelectionCommand, RankedCommand {
 
-    private final PlayerCommandManager playerCommandManager;
     private final IslandManager islandManager;
 
     public TogglePrivacyCommand(PlayerCommandManager playerCommandManager, IslandManager islandManager) {
-        this.playerCommandManager = playerCommandManager;
         this.islandManager = islandManager;
+
+        setName("togglePrivacy");
+        setDescription("Toggle your island's privacy");
+        setSyntax("/" + playerCommandManager.getCommandDisplayName() + " togglePrivacy");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(playerCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override
@@ -37,31 +40,6 @@ public class TogglePrivacyCommand extends SubCommand implements IslandSelectionC
     @Override
     public MemberType getRequiredRank() {
         return MemberType.getTypeByWeight(CommandsConfig.getRequiredRank(this));
-    }
-
-    @Override
-    public String getPermission() {
-        return "playerislands.island." + getName().toLowerCase();
-    }
-
-    @Override
-    public String getName() {
-        return "togglePrivacy";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Toggle your island's privacy";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + playerCommandManager.getCommandDisplayName() + " togglePrivacy";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
     }
 
     @Override

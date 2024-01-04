@@ -4,7 +4,6 @@ import com.github.gavvydizzle.playerislands.commands.PlayerCommandManager;
 import com.github.gavvydizzle.playerislands.island.Island;
 import com.github.gavvydizzle.playerislands.island.IslandManager;
 import com.github.gavvydizzle.playerislands.utils.Messages;
-import com.github.mittenmc.serverutils.PermissionCommand;
 import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -12,39 +11,18 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-public class VisitByIDCommand extends SubCommand implements PermissionCommand {
+public class VisitByIDCommand extends SubCommand {
 
-    private final PlayerCommandManager playerCommandManager;
     private final IslandManager islandManager;
 
     public VisitByIDCommand(PlayerCommandManager playerCommandManager, IslandManager islandManager) {
-        this.playerCommandManager = playerCommandManager;
         this.islandManager = islandManager;
-    }
 
-    @Override
-    public String getPermission() {
-        return "playerislands.island." + getName().toLowerCase();
-    }
-
-    @Override
-    public String getName() {
-        return "visitID";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Visit an island with its ID";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + playerCommandManager.getCommandDisplayName() + " visitID <id>";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("visitID");
+        setDescription("Visit an island with its ID");
+        setSyntax("/" + playerCommandManager.getCommandDisplayName() + " visitID <id>");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(playerCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override

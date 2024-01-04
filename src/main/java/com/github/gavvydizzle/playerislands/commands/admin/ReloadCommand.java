@@ -5,7 +5,6 @@ import com.github.gavvydizzle.playerislands.commands.AdminCommandManager;
 import com.github.gavvydizzle.playerislands.configs.*;
 import com.github.gavvydizzle.playerislands.utils.Messages;
 import com.github.gavvydizzle.playerislands.utils.Sounds;
-import com.github.mittenmc.serverutils.PermissionCommand;
 import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -14,13 +13,17 @@ import org.bukkit.util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReloadCommand extends SubCommand implements PermissionCommand {
+public class ReloadCommand extends SubCommand {
 
-    private final AdminCommandManager adminCommandManager;
     private final ArrayList<String> argsList;
 
     public ReloadCommand(AdminCommandManager adminCommandManager) {
-        this.adminCommandManager = adminCommandManager;
+        setName("reload");
+        setDescription("Reloads this plugin or a specified portion");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " reload [arg]");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
+
         argsList = new ArrayList<>();
         argsList.add("commands");
         argsList.add("gui");
@@ -28,31 +31,6 @@ public class ReloadCommand extends SubCommand implements PermissionCommand {
         argsList.add("sounds");
         argsList.add("upgrades");
         argsList.add("world");
-    }
-
-    @Override
-    public String getPermission() {
-        return "playerislands.islandadmin." + getName().toLowerCase();
-    }
-
-    @Override
-    public String getName() {
-        return "reload";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Reloads this plugin or a specified portion";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " reload [arg]";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
     }
 
     @Override

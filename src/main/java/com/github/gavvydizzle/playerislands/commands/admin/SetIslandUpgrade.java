@@ -8,7 +8,6 @@ import com.github.gavvydizzle.playerislands.upgrade.MemberUpgrade;
 import com.github.gavvydizzle.playerislands.upgrade.SizeUpgrade;
 import com.github.gavvydizzle.playerislands.upgrade.UpgradeManager;
 import com.github.gavvydizzle.playerislands.utils.Messages;
-import com.github.mittenmc.serverutils.PermissionCommand;
 import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -18,43 +17,23 @@ import org.bukkit.util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetIslandUpgrade extends SubCommand implements PermissionCommand {
+public class SetIslandUpgrade extends SubCommand {
 
-    private final AdminCommandManager adminCommandManager;
     private final IslandManager islandManager;
     private final ArrayList<String> upgradeTypes;
 
     public SetIslandUpgrade(AdminCommandManager adminCommandManager, IslandManager islandManager) {
-        this.adminCommandManager = adminCommandManager;
         this.islandManager = islandManager;
+
+        setName("setIslandUpgrade");
+        setDescription("Change an island's upgrade level");
+        setSyntax("/" + adminCommandManager.getCommandDisplayName() + " setIslandUpgrade <id> <upgradeType> <level>");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(adminCommandManager.getPermissionPrefix() + getName().toLowerCase());
+
         upgradeTypes = new ArrayList<>(2);
         upgradeTypes.add("member");
         upgradeTypes.add("size");
-    }
-
-    @Override
-    public String getPermission() {
-        return "playerislands.islandadmin." + getName().toLowerCase();
-    }
-
-    @Override
-    public String getName() {
-        return "setIslandUpgrade";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Change an island's upgrade level";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + adminCommandManager.getCommandDisplayName() + " setIslandUpgrade <id> <upgradeType> <level>";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
     }
 
     @Override

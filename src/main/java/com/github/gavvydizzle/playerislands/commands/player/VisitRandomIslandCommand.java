@@ -4,7 +4,6 @@ import com.github.gavvydizzle.playerislands.commands.PlayerCommandManager;
 import com.github.gavvydizzle.playerislands.island.Island;
 import com.github.gavvydizzle.playerislands.island.IslandManager;
 import com.github.gavvydizzle.playerislands.utils.Messages;
-import com.github.mittenmc.serverutils.PermissionCommand;
 import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -13,39 +12,18 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VisitRandomIslandCommand extends SubCommand implements PermissionCommand {
+public class VisitRandomIslandCommand extends SubCommand {
 
-    private final PlayerCommandManager playerCommandManager;
     private final IslandManager islandManager;
 
     public VisitRandomIslandCommand(PlayerCommandManager playerCommandManager, IslandManager islandManager) {
-        this.playerCommandManager = playerCommandManager;
         this.islandManager = islandManager;
-    }
 
-    @Override
-    public String getPermission() {
-        return "playerislands.island." + getName().toLowerCase();
-    }
-
-    @Override
-    public String getName() {
-        return "visitRandom";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Teleports you to a random public island";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + playerCommandManager.getCommandDisplayName() + " visitRandom";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("visitRandom");
+        setDescription("Teleports you to a random public island");
+        setSyntax("/" + playerCommandManager.getCommandDisplayName() + " visitRandom");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(playerCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override

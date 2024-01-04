@@ -3,7 +3,6 @@ package com.github.gavvydizzle.playerislands.commands.player;
 import com.github.gavvydizzle.playerislands.commands.PlayerCommandManager;
 import com.github.gavvydizzle.playerislands.island.IslandManager;
 import com.github.gavvydizzle.playerislands.utils.Messages;
-import com.github.mittenmc.serverutils.PermissionCommand;
 import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -12,39 +11,18 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JoinCommand extends SubCommand implements PermissionCommand {
+public class JoinCommand extends SubCommand {
 
-    private final PlayerCommandManager playerCommandManager;
     private final IslandManager islandManager;
 
     public JoinCommand(PlayerCommandManager playerCommandManager, IslandManager islandManager) {
-        this.playerCommandManager = playerCommandManager;
         this.islandManager = islandManager;
-    }
 
-    @Override
-    public String getPermission() {
-        return "playerislands.island." + getName().toLowerCase();
-    }
-
-    @Override
-    public String getName() {
-        return "join";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Accept a pending invite";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + playerCommandManager.getCommandDisplayName() + " join";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("join");
+        setDescription("Accept a pending invite");
+        setSyntax("/" + playerCommandManager.getCommandDisplayName() + " join");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(playerCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override

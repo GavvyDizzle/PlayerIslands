@@ -5,7 +5,6 @@ import com.github.gavvydizzle.playerislands.commands.PlayerCommandManager;
 import com.github.gavvydizzle.playerislands.island.Island;
 import com.github.gavvydizzle.playerislands.island.IslandManager;
 import com.github.gavvydizzle.playerislands.utils.Messages;
-import com.github.mittenmc.serverutils.PermissionCommand;
 import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -18,39 +17,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class VisitCommand extends SubCommand implements IslandSelectionCommand, PermissionCommand {
+public class VisitCommand extends SubCommand implements IslandSelectionCommand {
 
-    private final PlayerCommandManager playerCommandManager;
     private final IslandManager islandManager;
 
     public VisitCommand(PlayerCommandManager playerCommandManager, IslandManager islandManager) {
-        this.playerCommandManager = playerCommandManager;
         this.islandManager = islandManager;
-    }
 
-    @Override
-    public String getPermission() {
-        return "playerislands.island." + getName().toLowerCase();
-    }
-
-    @Override
-    public String getName() {
-        return "visit";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Visit another player's island by name or id (optional: include member islands)";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + playerCommandManager.getCommandDisplayName() + " visit <player> [include_member_islands]";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
+        setName("visit");
+        setDescription("Visit another player's island by name or id (optional: include member islands)");
+        setSyntax("/" + playerCommandManager.getCommandDisplayName() + " visit <player> [include_member_islands]");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(playerCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override

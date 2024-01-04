@@ -9,7 +9,6 @@ import com.github.gavvydizzle.playerislands.island.Island;
 import com.github.gavvydizzle.playerislands.island.IslandManager;
 import com.github.gavvydizzle.playerislands.island.MemberType;
 import com.github.gavvydizzle.playerislands.utils.Messages;
-import com.github.mittenmc.serverutils.PermissionCommand;
 import com.github.mittenmc.serverutils.SubCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,14 +21,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class InviteCommand extends SubCommand implements IslandSelectionCommand, PermissionCommand, RankedCommand {
+public class InviteCommand extends SubCommand implements IslandSelectionCommand, RankedCommand {
 
-    private final PlayerCommandManager playerCommandManager;
     private final IslandManager islandManager;
 
     public InviteCommand(PlayerCommandManager playerCommandManager, IslandManager islandManager) {
-        this.playerCommandManager = playerCommandManager;
         this.islandManager = islandManager;
+
+        setName("invite");
+        setDescription("Invite a player to your island");
+        setSyntax("/" + playerCommandManager.getCommandDisplayName() + " invite <player>");
+        setColoredSyntax(ChatColor.YELLOW + getSyntax());
+        setPermission(playerCommandManager.getPermissionPrefix() + getName().toLowerCase());
     }
 
     @Override
@@ -40,31 +43,6 @@ public class InviteCommand extends SubCommand implements IslandSelectionCommand,
     @Override
     public MemberType getRequiredRank() {
         return MemberType.getTypeByWeight(CommandsConfig.getRequiredRank(this));
-    }
-
-    @Override
-    public String getPermission() {
-        return "playerislands.island." + getName().toLowerCase();
-    }
-
-    @Override
-    public String getName() {
-        return "invite";
-    }
-
-    @Override
-    public String getDescription() {
-        return "Invite a player to your island";
-    }
-
-    @Override
-    public String getSyntax() {
-        return "/" + playerCommandManager.getCommandDisplayName() + " invite <player>";
-    }
-
-    @Override
-    public String getColoredSyntax() {
-        return ChatColor.YELLOW + "Usage: " + getSyntax();
     }
 
     @Override
